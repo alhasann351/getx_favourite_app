@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_favourite_app/favourite_controller.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -8,11 +10,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> name = ['Al-Hasan', 'Tali', 'Hasib', 'Karim', 'Rahim', 'Malik'];
-  List<String> tempName = [];
+  FavouriteController favouriteController = Get.put(FavouriteController());
 
   @override
   Widget build(BuildContext context) {
+    print('rebuild');
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,22 +29,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: name.length,
+        itemCount: favouriteController.name.length,
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              onTap: (){
-                if(tempName.contains(name[index].toString())){
-                  tempName.remove(name[index].toString());
-                }else{
-                  tempName.add(name[index].toString());
-                }
-                setState(() {
-
-                });
+              onTap: () {
+                favouriteController.setFavourite(index);
+                print('icon rebuild');
               },
-              title: Text(name[index].toString()),
-              trailing: Icon(tempName.contains(name[index].toString()) ? Icons.favorite_border : Icons.favorite_rounded, color: Colors.red,),
+              title: Text(favouriteController.name[index].toString()),
+              trailing: Obx(
+                () => Icon(
+                  favouriteController.tempName
+                          .contains(favouriteController.name[index].toString())
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border,
+                  color: Colors.red,
+                ),
+              ),
             ),
           );
         },
