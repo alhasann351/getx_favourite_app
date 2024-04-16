@@ -8,6 +8,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> name = ['Al-Hasan', 'Tali', 'Hasib', 'Karim', 'Rahim', 'Malik'];
+  List<String> tempName = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +25,27 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.white,
           ),
         ),
+      ),
+      body: ListView.builder(
+        itemCount: name.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              onTap: (){
+                if(tempName.contains(name[index].toString())){
+                  tempName.remove(name[index].toString());
+                }else{
+                  tempName.add(name[index].toString());
+                }
+                setState(() {
+
+                });
+              },
+              title: Text(name[index].toString()),
+              trailing: Icon(tempName.contains(name[index].toString()) ? Icons.favorite_border : Icons.favorite_rounded, color: Colors.red,),
+            ),
+          );
+        },
       ),
     );
   }
